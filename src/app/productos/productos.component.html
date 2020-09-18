@@ -1,0 +1,74 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="display-3">
+      <h4><strong>Tabla de Productos</strong></h4>
+      <button class="btn btn-info mt-2 mb-0" routerLink="/productos/form">Nuevo Producto</button>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="pb-5">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="productos"  class="table table-hover table-striped my-2" style="width: 99%;">
+
+        <ng-container matColumnDef="foto">
+          <th mat-header-cell *matHeaderCellDef> Foto </th>
+          <td mat-cell *matCellDef="let producto">
+            <img *ngIf="producto?.foto" src="{{urlBackend}}/api/uploads/imagen/{{producto.foto}}" alt="{{producto.foto}}" class="img-thumbnail rounded" style="width:64px; cursor: pointer;">
+
+            <img *ngIf="!producto?.foto" src="assets/nofoto.png" alt="Sin foto" class="img-thumbnail rounded" style="width:64px; cursor: pointer;">
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let producto"> {{producto.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef> Categoria </th>
+          <td mat-cell *matCellDef="let producto"> {{producto.categoria}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let producto"> {{producto.precio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef> Cantidad </th>th>
+          <td mat-cell *matCellDef="let producto"> {{producto.cantidad}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createAt">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let producto"> {{producto.createAt}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="eliminar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let producto">
+            <button class="btn btn-danger" (click)="eliminarProducto(producto)">x</button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let producto">
+            <button class="btn btn-secondary" [routerLink]="['/productos/form', producto.id]">Editar</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="productosColumnas"></tr>
+        <tr mat-row *matRowDef="let producto; columns: productosColumnas;"></tr>
+
+      </table>
+      <mat-paginator [length]="totalRegistros"
+                     [pageSize]="totalPorPagina"
+                     [pageIndex]="paginaActual"
+                     [pageSizeOptions]="pageSizeOptions"
+                     (page)="paginar($event)"
+                     showFirstLastButtons
+                     class="float-right m-2">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

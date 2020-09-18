@@ -1,0 +1,65 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+  <li *ngFor="let err of errores">
+    {{ err }}
+  </li>
+</ul>
+<div class="row d-flex justify-content-center align-items-center">
+  <div class="col-auto">
+    <div class="card">
+      <div class="card-header display-3">
+        <h4><strong>Formulario Producto</strong></h4>
+        <div class="d-flex justify-content-end">
+          <button role="button" class="btn btn-info mr-2" routerLink="/productos"><<</button>
+          <button (click)=create() *ngIf="!producto.id else elseBlock" role="button" class="btn btn-success">Crear Producto</button>
+          <ng-template #elseBlock>
+            <button class="btn btn-info" role="button" (click)='update()'>Editar Producto</button>
+          </ng-template>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-6">
+              <mat-label>Nombre del Articulo</mat-label>
+              <input matInput [(ngModel)]="producto.nombre">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-md-6">
+              <mat-label>Precio</mat-label>
+              <input matInput type="number" [(ngModel)]="producto.precio">
+              <span matPrefix>$&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-md-6">
+              <mat-label>Categorias</mat-label>
+              <mat-select  [(ngModel)]="producto.categoria">
+               <mat-option *ngFor="let categoria of categorias" value="{{categoria}}">{{categoria}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          <mat-form-field appearance="fill" class="col-md-6">
+            <mat-label>Cantidad</mat-label>
+            <input matInput [(ngModel)]="producto.cantidad">
+          </mat-form-field>
+
+        </div>
+
+        <div class="col" *ngIf="producto.id">
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+              <label class="custom-file-label" for="inputGroupFile04">Seleccionar foto</label>
+            </div>
+            <div class="input-group-append">
+              <button (click)="subirFoto()" [disabled]="!fotoSeleccionada" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Subir</button>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
